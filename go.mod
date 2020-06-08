@@ -5,6 +5,7 @@ go 1.14
 require (
 	github.com/BurntSushi/toml v0.3.1
 	github.com/apache/rocketmq-client-go v0.0.0-20191211114916-85ee94b43cef
+	github.com/codahale/hdrhistogram v0.0.0-20161010025455-3a0bb77429bd // indirect
 	github.com/codegangsta/inject v0.0.0-20150114235600-33e0aa1cb7c0
 	github.com/coreos/go-systemd v0.0.0-20191104093116-d3cd4ed1dbcf // indirect
 	github.com/davecgh/go-spew v1.1.1
@@ -21,23 +22,21 @@ require (
 	github.com/jinzhu/gorm v1.9.12
 	github.com/json-iterator/go v1.1.9
 	github.com/kr/pretty v0.2.0 // indirect
-	github.com/labstack/echo v3.3.10+incompatible // indirect
 	github.com/labstack/echo/v4 v4.1.16
-	github.com/mitchellh/mapstructure v1.3.0
+	github.com/mitchellh/mapstructure v1.3.2
 	github.com/modern-go/reflect2 v1.0.1
-	github.com/onsi/ginkgo v1.12.0 // indirect
-	github.com/onsi/gomega v1.10.0 // indirect
+	github.com/onsi/ginkgo v1.12.3 // indirect
 	github.com/opentracing/opentracing-go v1.1.0
 	github.com/pkg/errors v0.9.1
 	github.com/prometheus/client_golang v1.6.0
 	github.com/robfig/cron/v3 v3.0.1
 	github.com/smallnest/weighted v0.0.0-20200122032019-adf21c9b8bd1
-	github.com/spf13/cast v1.3.0
-	github.com/stretchr/testify v1.5.1
+	github.com/spf13/cast v1.3.1
+	github.com/stretchr/testify v1.6.1
 	github.com/tidwall/pretty v1.0.1
 	github.com/uber/jaeger-client-go v2.23.1+incompatible
 	github.com/uber/jaeger-lib v2.2.0+incompatible // indirect
-	github.com/urfave/cli v1.21.0
+	github.com/urfave/cli v1.22.4
 	go.etcd.io/etcd v0.5.0-alpha.5.0.20200401174654-e694b7bb0875
 	go.uber.org/automaxprocs v1.3.0
 	go.uber.org/multierr v1.5.0
