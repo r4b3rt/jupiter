@@ -14,13 +14,13 @@ require (
 	github.com/fsnotify/fsnotify v1.4.9
 	github.com/go-redis/redis v6.15.7+incompatible
 	github.com/go-resty/resty/v2 v2.2.0
-	github.com/gobuffalo/packr/v2 v2.8.0
 	github.com/golang/groupcache v0.0.0-20200121045136-8c9f03a8e57e // indirect
 	github.com/golang/protobuf v1.4.2
 	github.com/gopherjs/gopherjs v0.0.0-20200217142428-fce0ec30dd00 // indirect
 	github.com/grpc-ecosystem/go-grpc-prometheus v1.2.0
 	github.com/jinzhu/gorm v1.9.12
 	github.com/json-iterator/go v1.1.9
+	github.com/konsorten/go-windows-terminal-sequences v1.0.2 // indirect
 	github.com/kr/pretty v0.2.0 // indirect
 	github.com/labstack/echo/v4 v4.1.16
 	github.com/mitchellh/mapstructure v1.3.2
@@ -36,7 +36,6 @@ require (
 	github.com/tidwall/pretty v1.0.1
 	github.com/uber/jaeger-client-go v2.23.1+incompatible
 	github.com/uber/jaeger-lib v2.2.0+incompatible // indirect
-	github.com/urfave/cli v1.22.4
 	go.etcd.io/etcd v0.5.0-alpha.5.0.20200401174654-e694b7bb0875
 	go.uber.org/automaxprocs v1.3.0
 	go.uber.org/multierr v1.5.0
