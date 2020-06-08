@@ -15,37 +15,44 @@
 package etcdv3
 
 import (
+	"context"
+	"fmt"
 	"testing"
+	"time"
+
+	"github.com/douyu/jupiter/pkg/xlog"
+	"github.com/stretchr/testify/assert"
+	"go.etcd.io/etcd/mvcc/mvccpb"
 )
 
 func TestConfigBuild(t *testing.T) {
 	// TODO(gorexlv): add etcd ci
-	// config := &Config{
-	// 	Endpoints:      []string{"127.0.0.1:2379"},
-	// 	ConnectTimeout: time.Second * 3,
-	// 	Secure:         false,
-	// 	logger:         xlog.DefaultConfig().Build(),
-	// }
-	// etcdClient := config.Build()
-	// _, err := etcdClient.Put(context.Background(), "etcdTest", "test")
-	// assert.Equal(t, nil, err)
-	// fmt.Println("etcdClient", etcdClient)
+	config := &Config{
+		Endpoints:      []string{"localhost:2379"},
+		ConnectTimeout: time.Second * 3,
+		Secure:         false,
+		logger:         xlog.DefaultConfig().Build(),
+	}
+	etcdClient := config.Build()
+	_, err := etcdClient.Put(context.Background(), "etcdTest", "test")
+	assert.Equal(t, nil, err)
+	fmt.Println("etcdClient", etcdClient)
 
-	// // test get
-	// kv, err := etcdClient.GetKeyValue(context.Background(), "etcdTest")
-	// assert.Equal(t, nil, err)
-	// assert.Equal(t, "etcdTest", string(kv.Key))
-	// assert.Equal(t, "test", string(kv.Value))
+	// test get
+	kv, err := etcdClient.GetKeyValue(context.Background(), "etcdTest")
+	assert.Equal(t, nil, err)
+	assert.Equal(t, "etcdTest", string(kv.Key))
+	assert.Equal(t, "test", string(kv.Value))
 
-	// // test getprefix
-	// kvMap, err := etcdClient.GetPrefix(context.Background(), "etcd")
-	// assert.Equal(t, nil, err)
-	// assert.Equal(t, map[string]string{"etcdTest": "test"}, kvMap)
+	// test getprefix
+	kvMap, err := etcdClient.GetPrefix(context.Background(), "etcd")
+	assert.Equal(t, nil, err)
+	assert.Equal(t, map[string]string{"etcdTest": "test"}, kvMap)
 
-	// // test del
-	// _, err = etcdClient.Delete(context.Background(), "etcdTest")
-	// assert.Equal(t, nil, err)
-	// kv, err = etcdClient.GetKeyValue(context.Background(), "etcdTest")
-	// assert.Equal(t, nil, err)
-	// assert.Equal(t, (*mvccpb.KeyValue)(nil), kv)
+	// test del
+	_, err = etcdClient.Delete(context.Background(), "etcdTest")
+	assert.Equal(t, nil, err)
+	kv, err = etcdClient.GetKeyValue(context.Background(), "etcdTest")
+	assert.Equal(t, nil, err)
+	assert.Equal(t, (*mvccpb.KeyValue)(nil), kv)
 }
