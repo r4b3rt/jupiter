@@ -47,20 +47,26 @@ type etcdv3Registry struct {
 	sessions map[string]*concurrency.Session
 }
 
-func newETCDRegistry(config *Config) *etcdv3Registry {
+func newETCDRegistry(config *Config) (*etcdv3Registry, error) {
 	if config.logger == nil {
 		config.logger = xlog.JupiterLogger
 	}
 	config.logger = config.logger.With(xlog.FieldMod(ecode.ModRegistryETCD), xlog.FieldAddrAny(config.Config.Endpoints))
+	etcdv3Client, err := config.Config.Build()
+	if err != nil {
+		return nil, err
+	}
 	reg := &etcdv3Registry{
-		client:   config.Config.Build(),
+		client:   etcdv3Client,
 		Config:   config,
 		kvs:      sync.Map{},
 		rmu:      &sync.RWMutex{},
 		sessions: make(map[string]*concurrency.Session),
 	}
-	return reg
+	return reg, nil
 }
+
+func (reg *etcdv3Registry) Kind() string { return "etcdv3" }
 
 // RegisterService register service to registry
 func (reg *etcdv3Registry) RegisterService(ctx context.Context, info *server.ServiceInfo) error {
@@ -228,10 +234,9 @@ func (reg *etcdv3Registry) registerMetric(ctx context.Context, info *server.Serv
 
 }
 func (reg *etcdv3Registry) registerBiz(ctx context.Context, info *server.ServiceInfo) error {
-	var readCtx context.Context
-	var readCancel context.CancelFunc
 	if _, ok := ctx.Deadline(); !ok {
-		readCtx, readCancel = context.WithTimeout(ctx, reg.ReadTimeout)
+		var readCancel context.CancelFunc
+		ctx, readCancel = context.WithTimeout(ctx, reg.ReadTimeout)
 		defer readCancel()
 	}
 
@@ -248,7 +253,7 @@ func (reg *etcdv3Registry) registerBiz(ctx context.Context, info *server.Service
 		}
 		opOptions = append(opOptions, clientv3.WithLease(sess.Lease()))
 	}
-	_, err := reg.client.Put(readCtx, key, val, opOptions...)
+	_, err := reg.client.Put(ctx, key, val, opOptions...)
 	if err != nil {
 		reg.logger.Error("register service", xlog.FieldErrKind(ecode.ErrKindRegisterErr), xlog.FieldErr(err), xlog.FieldKeyAny(key), xlog.FieldValueAny(info))
 		return err
